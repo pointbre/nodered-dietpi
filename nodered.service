@@ -1,0 +1,15 @@
+[Unit]
+Description=Dockerised Node-Red
+Requires=docker.service
+After=docker.service
+
+[Service]
+Type=simple
+Restart=always
+RestartSec=10s
+ExecStartPre=-/usr/bin/docker stop nodered
+ExecStart=/usr/bin/docker start -a nodered
+ExecStop=-/usr/bin/docker stop nodered
+
+[Install]
+WantedBy=multi-user.target

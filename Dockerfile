@@ -8,7 +8,8 @@ ENV PYTHON /usr/bin/python2
 
 # install node-red
 RUN apt-get install -y build-essential && \
-    npm install -g --unsafe-perm  node-red && \
+    npm install -g --unsafe-perm node-red && \
+    npm install -g --unsafe-perm pm2 && \
     apt-get autoremove -y build-essential
 
 # install RPI.GPIO python libs including nrgpio patch
@@ -36,5 +37,5 @@ VOLUME /data
 # Expose port 1880
 EXPOSE 1880
 
-# Setup start command with options to specify data directory + flow file
-ENTRYPOINT ["node-red-pi","-v", "--max-old-space-size=128","--userDir","/data", "flow.json"]
+COPY ./docker-entrypoint.sh /
+ENTRYPOINT ["sh", "-c", "/docker-entrypoint.sh; bash"]
